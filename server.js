@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-
+const db = require('./db/db.json');
+const { v4: uuidv4 } = require('uuid');
 
 const PORT = 3001;
 
@@ -23,46 +24,46 @@ app.get('/notes', (req, res) => {
     console.info(`${req.method} request received to get notes`);
 });
 
-app.post('/notes', (req, res) => {
+app.get('/api/notes', (req, res) => {
+    const savedNotes = db
+    res.json(savedNotes)
+})
+
+app.post('/api/notes', (req, res) => {
     console.info(`${req.method} request received to add a review`);
 
     const { title, text } = req.body;
+    const savedNotes = db;
 
-    // if (title && text) {
-    //     const newNote = {
-    //         title,
-    //         text,
-    //     };
 
-    // fs.readFile('./db/db.json', 'utf8', (err, data) => {
-    //     if (err) {
-    //         console.error(err);
-    //     } else {
-    //         const parsedNotes = JSON.parse(data);
+    if (title && text) {
+        const newNote = {
+            title,
+            text,
+            id: uuidv4()
+        };
 
-    //         parsedNotes.push(newNote);
+        savedNotes.push(newNote)
+        fs.writeFileSync('./db/db.json', JSON.stringify(savedNotes))
+        res.json(savedNotes)
 
-    //         fs.writeFile(
-    //             './db/db.json',
-    //             JSON.stringify(parsedNotes, null, 4),
-    //             (writeErr) =>
-    //                 writeErr
-    //                 ? console.error(writeErr)
-    //                 : console.info('Successfully updated notes!')
-    //         )
-    //     }
-    // });
+    }
+});
 
-    // const response = {
-    //     status: 'success',
-    //     body: newReview,
-    // };
+app.delete('/api/notes/:id', (req, res) => {
+    const savedNotes = db;
 
-    // console.log(response);
-    // res.status(201).json(response);
-    // } else {
-    //     res.status(500).json('Error in posting note');
-    // }
+    const id = req.params.id
+
+    for (i = 0; i < savedNotes.length; i++) {
+        if (id === savedNotes[i].id) {
+            savedNotes.splice(i, 1)
+        }
+    }
+    console.log(savedNotes)
+
+    fs.writeFileSync('./db/db.json', JSON.stringify(savedNotes))
+    res.json(savedNotes)
 })
 
 app.listen(PORT, () =>
