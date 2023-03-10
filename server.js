@@ -4,7 +4,7 @@ const fs = require('fs');
 const db = require('./db/db.json');
 const { v4: uuidv4 } = require('uuid');
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
@@ -64,7 +64,7 @@ app.delete('/api/notes/:id', (req, res) => {
 
     fs.writeFileSync('./db/db.json', JSON.stringify(savedNotes))
     res.json(savedNotes)
-})
+});
 
 app.listen(PORT, () =>
     console.log(`App listening at http://localhost:${PORT} 🚀`)
