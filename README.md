@@ -22,6 +22,14 @@ N/A
 
 When the user comes to the main webpage, they will first need to click "Get Started" to access the Note Taker page. Once the user comes to this page, on the right hand side, the user is presented with fields to enter in the title and the note text. Once the user is finished making their note, they can click the save button in the top right hand corner of the screen. Once this is done, the created note will show listed on the left side of the screen. The user can then click the delete / trashcan button to delete their note.
 
+[Deployed Webpage](https://dry-castle-65219.herokuapp.com/)
+
+![Screenshot 1](./Images/Screenshot1.jpg)
+
+![Screenshot 2](./Images/Screenshot2.jpg)
+
+![Screenshot 3](./Images/Screenshot3.jpg)
+
 ## License
 
 [The MIT License](https://opensource.org/licenses/MIT)
